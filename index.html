@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KODIWIZ</title>
+  
+ <div style="text-align: center;">
+  <img src="sandbox02.png" style="width: 30%; height: auto;" alt="Sandbox Image">
+</div>  
+<br>
+<center>
+  <p style="color: #A8A8A8;"><strong>Any Image</strong></p>
+  <p style="color: #A8A8A8;"><strong>Any Color</strong></p>
+  <p style="color: #A8A8A8;"><strong>Infinite Combinations</strong></p>
+  <p style="color: #A8A8A8;"><strong>Infinite Possibilities</strong></p>
+</center>
+<br>
+  
+  
+  <style>
+    /* Reset & Page Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      background-color: #0f0f0f;
+    }
+
+    /* Thumbnail Flex Grid */
+    .gallery-container {
+      display: flex; 
+      width: 100%;
+      gap: 1rem; /* Adds spacing between images */
+    }
+    .gallery-item {
+      flex: 1; /* Ensures equal scaling and layout distribution */
+      width: 25%; 
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+    .gallery-item img {
+      width: 100%; 
+      height: auto; 
+      display: block;
+      object-fit: cover; /* Retains clean proportions */
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-content {
+      max-width: 85%;
+      max-height: 85%;
+      border-radius: 4px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    /* Interactive Elements */
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    .close-btn:hover {
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- The Thumbnail Gallery -->
+  <div class="gallery-container"> 
+    <div class="gallery-item" onclick="openModal('images/UI1.png')">
+      <img src="images/UI1.png" alt="UI Thumbnail 1"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI2.png')">
+      <img src="images/UI2.png" alt="UI Thumbnail 2"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI3.png')">
+      <img src="images/UI3.png" alt="UI Thumbnail 3"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI4.png')">
+      <img src="images/UI4.png" alt="UI Thumbnail 4"> 
+    </div>
+  </div>
+  <br>
+  <div class="gallery-container"> 
+    <div class="gallery-item" onclick="openModal('images/UI5.png')">
+      <img src="images/UI5.png" alt="UI Thumbnail 5"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI6.png')">
+      <img src="images/UI6.png" alt="UI Thumbnail 6"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI7.png')">
+      <img src="images/UI7.png" alt="UI Thumbnail 7"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI11.png')">
+      <img src="images/UI11.png" alt="UI Thumbnail 11"> 
+    </div>
+  </div>
+  <br>
+  <div class="gallery-container"> 
+    <div class="gallery-item" onclick="openModal('images/UI15.png')">
+      <img src="images/UI15.png" alt="UI Thumbnail 5"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI12.png')">
+      <img src="images/UI12.png" alt="UI Thumbnail 6"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI13.png')">
+      <img src="images/UI13.png" alt="UI Thumbnail 7"> 
+    </div>
+    <div class="gallery-item" onclick="openModal('images/UI14.png')">
+      <img src="images/UI14.png" alt="UI Thumbnail 11"> 
+    </div>
+  </div>
+
+  <!-- Shared Modal Popup Structure -->
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close-btn">&times;</span>
+    <img class="modal-content" id="modalTargetImg" alt="Expanded view" onclick="event.stopPropagation()">
+  </div>
+
+  <!-- Modal Scripting -->
+  <script>
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalTargetImg');
+
+    function openModal(imageSrc) {
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; /* Prevents background scrolling */
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; /* Restores background scrolling */
+      setTimeout(() => { modalImg.src = ''; }, 300); /* Clears image source after fadeout */
+    }
+
+    // Escape Key bind to exit modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+  
+<br>
+<ul style="list-style-type:square;">
+  <li style="color: #A8A8A8;">Go to<a href="https://kodi.tv/download/">KODI TV</a>and download the appropriate version for your hardware.</li>
+  <br>
+  <li style="color: #A8A8A8;">Install Kodi.</li>
+  <br>
+  <li style="color: #A8A8A8;">You may need to enable unknown sources in your Kodi settings.</li>
+  <br>
+  <li style="color: #A8A8A8;">Go into your Kodi settings and open the file manager</li>
+  <br>
+  <li style="color: #A8A8A8;">Select Add source and click on None.</li>
+  <br>
+  <li style="color: #A8A8A8;">Type in the path https://dwthings.github.io/ and select OK.</li>
+  <br>
+  <li style="color: #A8A8A8;">Highlight the box underneath and type in a name like “dwthings” for this media source.</li>
+  <br>
+  <li style="color: #A8A8A8;">Click OK.</li>
+  <br>
+  <li style="color: #A8A8A8;">Go back to your main menu and select Addons on the left side.</li>
+  <br>
+  <li style="color: #A8A8A8;">Open the addon browser by clicking on the little box symbol at the top left.</li>
+  <br>
+  <li style="color: #A8A8A8;">Select Install from ZIP file.</li>
+  <br>
+  <li style="color: #A8A8A8;">Open the source dwthings and select the file repository.dwstuff-x.x.zip.</li>
+  <br>
+  <li style="color: #A8A8A8;">Wait until the notification appears that the repository was installed successfully.</li>
+  <br>
+  <li style="color: #A8A8A8;">In your addon browser select Install from repository.</li>
+  <br>
+  <li style="color: #A8A8A8;">Select the installed DWStuff Repository.</li>
+  <br>
+  <li style="color: #A8A8A8;">Open the category Program addons.</li>
+  <br>
+  <li style="color: #A8A8A8;">Select DWBig Wizard and click on Install on the bottom right.</li>
+  <br>
+  <li style="color: #A8A8A8;">Wait until the notification appears that DWBig Wizard was installed successfully.</li>
+  <br>
+  <li style="color: #A8A8A8;">Click Continue.</li>
+  <br>
+  <li style="color: #A8A8A8;">Select Build Menu.</li>
+  <br>
+  <li style="color: #A8A8A8;">Select Build.</li>
+  <br>
+  <li style="color: #A8A8A8;">There are currently two to choose from.</li>
+  <br>
+  <ol>
+		<li style="color: #A8A8A8;">omega_sandbox - Uses all free addons and a VPN is not required.</li>
+		<li style="color: #A8A8A8;">omega_lite - A lite version of the omega build.</li>
+		<li style="color: #A8A8A8;">omega_pi - An omega build specifically for Raspberry Pi.</li>
+  </ol>
+  <br>
+  <li style="color: #A8A8A8;">Choose Install if you just installed Kodi or use Fresh Install if you want to replace an existing build.</li>
+  <br>
+  <li style="color: #A8A8A8;">The build will now download and install.</li>
+  <br>
+  <li style="color: #A8A8A8;">Click force close Kodi.</li>
+  <br>
+  <li style="color: #A8A8A8;">Open Kodi and leave for a couple of minutes so any updates can be completed.</li>
+</ul>
+
+<br>
+<script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u4"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
+<div id="rumble_v49d5az"></div>
+<script>
+Rumble("play", {"video":"v49d5az","div":"rumble_v49d5az"});</script>
+<br>
+
+<style>
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%; /* Optional: Sets a maximum width for desktop viewports */
+  margin: 0 auto;    /* Centers the video container horizontally */
+  aspect-ratio: 16 / 9; /* Maintains a perfect widescreen aspect ratio */
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+</style>
+<div class="video-container">
+  <iframe src="https://drive.google.com/file/d/1Bjrcsdj_EPt8FtCCrQ2lE8VbK8AU9deB/preview" allow="autoplay=none" allowfullscreen></iframe>
+</div>
+
+
+<a href="repository.dwstuff-1.5.zip">repository.dwstuff-1.5.zip</a>
+</body>
+</html>
